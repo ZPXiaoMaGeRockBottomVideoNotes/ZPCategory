@@ -19,7 +19,7 @@
  };
  其中分类中的实例方法会存储到上面的结构体中的"const struct _method_list_t *instance_methods"中，类方法会存储到上面的构体中的"const struct _method_list_t *class_methods"中，如果分类中有协议的话，会存储到上面的结构体中的"const struct _protocol_list_t *protocols"中，如果分类中写了属性的话，会存储到上面的结构体中的"const struct _prop_list_t *properties"中；
  2、程序运行时：然后在程序运行的时候会利用Runtime运行时机制，把上述结构体中存储的分类中的实例方法合并到原类的class对象中去，把上述结构体中存储的分类的类方法合并到原类的meta-class对象中去。所以说分类是Runtime运行时机制的又一重大的应用；
- 3、原类的实例对象调用分类中的实例方法时：当原类的instance对象调用分类中的实例方法"[person eat];"的时候，系统首先会根据原类的instance对象里面的isa指针找到原类的class对象，然后在这个class对象里面的实例方法列表中查找那个分类的实例方法"eat"，根据上面2所述，在程序运行的时候，Runtime运行时机制会把分类中的实例方法合并到原类的class对象里面，所以系统在原类的class对象里面能够查找到这个分类的实例方法，然后再进行调用，整个调用过程结束。
+ 3、原类的实例对象调用分类中的实例方法时：当原类的instance对象调用分类中的实例方法"[person eat];"的时候，系统首先会根据原类的instance对象里面的isa指针找到原类的class对象，然后在这个class对象里面的实例方法列表中查找那个分类的实例方法"eat"，根据上面2所述，在程序运行的时候，Runtime运行时机制会把分类中的实例方法合并到原类的class对象里面，所以系统在原类的class对象里面能够查找到这个分类的实例方法，然后再进行调用，整个调用过程结束；
  4、原类的类对象调用分类中的类方法时：当原类的class对象调用分类中的类方法"[ZPPerson classMethod];"的时候，系统首先会根据原类的class对象中的isa指针找到它的meta-class对象，然后在这个meta-class对象中的类方法列表中查找那个分类的类方法"classMethod"，根据上面2所述，在程序运行的时候，Runtime运行时机制会把分类中的类方法合并到原类的meta-class对象里面，所以系统在原类的meta-class对象里面能够查找到这个分类的类方法，然后再进行调用，整个调用过程结束。
  以上就是分类的实现原理。
  备注：不存在分类的class对象，也不存在分类的meta-class对象。类的class对象和meta-class对象各只有唯一的一份。
